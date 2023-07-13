@@ -1,21 +1,30 @@
 # -*- mode: yaml -*-
+
 manifest:
   version: 1.0
+
 automations:
-  #https://docs.gitstream.cm/automations/review-sensitive-files/
-  review_javadoc:
+  review_javadoc_large:
     if:
-      - {{ source.diff.files | matchDiffLines(regex=r/\/*\*([\s\S]*?)\//) | some }}
-      - {{ source.diff.files | matchDiffLines(regex=r/\b(public|protected|private|static|final|synchronized)?\s+\w+\s+\w+\s*\(([^)]*)\)\s*\{/) | nope }}
-    run:
+      - {{ changes.ratio > 25}}
+      - {{ source.diff.files | matchDiffLines(regex=r/\/*\*([\s\S]*?)\//) | nope }}
+    run: 
       - action: add-label@v1
         args:
-            label: "📓Javadoc Only"
-            color: {{ colors.green }}
+          label: "⚠️ No Javadoc"
+          color: {{ colors.yellow }}
+      - action: add-comment@v1
+        args: 
+          comment: | 
+             This PR makes major changes to Java classes, but is missing updates to Javadoc. Please double check for any necessary Javadoc updates.
       - action: add-reviewers@v1
         args:
           reviewers: [fourth-organization/tech-writers]
-      - action: approve@v1
-      
-colors:
-  green: '0e8a16'
+
+changes:
+  # Sum all the lines added/edited in the PR
+  additions: {{ branch.diff.files_metadata | map(attr='additions') | sum }}
+  # Sum all the line removed in the PR
+  deletions: {{ branch.diff.files_metadata | map(attr='deletions') | sum }}
+  # Calculate the ratio of new code
+  ratio: {{ (changes.additions / (changes.additions + changes.deletions)) * 100 | round(2) }}
