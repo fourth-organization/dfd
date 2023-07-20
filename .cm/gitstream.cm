@@ -1,8 +1,6 @@
 # -*- mode: yaml -*-
-
 manifest:
   version: 1.0
-
 automations:
   #Require more extensive reviews for large Javascript changes that lack JSDoc updates.
   review_jsdoc_large:
