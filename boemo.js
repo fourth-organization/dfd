@@ -7,8 +7,6 @@
  * @return {string} A good string
  *
  * @example
- *
- *     foo('hello')
  */
 
 function foo(n, o, d) {
