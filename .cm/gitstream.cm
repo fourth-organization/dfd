@@ -5,7 +5,7 @@ automations:
  {% for item in teams %}
  review_team_name_{item.name}: 
     if:  
-      - {{ pr.author_teams | includes(term='ui') | some }}
+      - {{ pr.author_teams | includes(term='ui') }}
     run:
       - action: add-reviewers@v1
         args:
