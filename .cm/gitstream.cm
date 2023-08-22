@@ -2,20 +2,24 @@
 manifest:
   version: 1.0
 automations:
-  #Assign PRs that only affect JSDocs to the technical writing team and add docs label
-  review_jsdoc:
-    if:
-      - {{ source.diff.files | matchDiffLines(regex=r/\/*\*([\s\S]*?)\//) | some }}
-      - {{ source.diff.files | matchDiffLines(regex=r/function|(\w+)\s*\((.*?)\)/) | nope }}
+ {% for item in teams %}
+ review_team_name_{item.name}: 
+    if:  
+      - {{ pr.author_teams | matches(list=item.name) | some }}
     run:
-      - action: add-label@v1
-        args:
-            label: "📓JSDoc Only"
-            color: {{ colors.green }}
       - action: add-reviewers@v1
         args:
-          reviewers: [fourth-organization/tech-writers]
-      - action: approve@v1
-      
-colors:
-  green: '0e8a16'#
+          reviewers: [{{ item.team }}] 
+      - action: add-comment@v1
+        args: 
+          comment: | 
+             This PR requires {{ item.requiredReviews }} reviewers.
+{% endfor %}
+
+teams:
+    - name: ui-team
+        team: fourth-organization/ui-team
+        requiredReviews: 2
+    - name: mobile-team
+         team: fourth-organization/mobile-team
+        requiredReviewers: 4
