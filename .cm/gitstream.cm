@@ -9,7 +9,7 @@ automations:
     run:
       - action: add-reviewers@v1
         args:
-          reviewers: [{{ item.team }}] 
+          reviewers: [{{ item.teamAssign }}] 
       - action: add-comment@v1
         args: 
           comment: | 
@@ -18,8 +18,8 @@ automations:
 
 teams:
     - name: ui-team
-        team: fourth-organization/ui-team
+        teamAssign: fourth-organization/ui-team
         requiredReviews: 2
     - name: mobile-team
-         team: fourth-organization/mobile-team
+        teamAssign: fourth-organization/mobile-team
         requiredReviewers: 4
