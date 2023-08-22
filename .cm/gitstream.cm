@@ -17,9 +17,9 @@ automations:
 {% endfor %}
 
 teams:
-    - name: ui-team
-        teamAssign: fourth-organization/ui-team
-        requiredReviews: 2
-    - name: mobile-team
-        teamAssign: fourth-organization/mobile-team
-        requiredReviewers: 4
+  - name: ui-team
+    teamAssign: fourth-organization/ui-team
+    requiredReviews: 2
+  - name: mobile-team
+    teamAssign: fourth-organization/mobile-team
+    requiredReviewers: 4
