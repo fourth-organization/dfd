@@ -3,23 +3,21 @@ manifest:
   version: 1.0
 automations:
  {% for item in teams %}
- review_team_name_{item.name}: 
+ review_team_name_{{ item.name }}: 
     if:  
-      - {{ pr.author_teams | includes(term='ui') }}
+      - {{ pr.author_teams | match(regex=item.name) }}
     run:
       - action: add-reviewers@v1
         args:
-          reviewers: [{{ item.teamAssign }}] 
+          reviewers: [{{ item.name }}] 
       - action: add-comment@v1
         args: 
           comment: | 
-             This PR requires {{ item.requiredReviews }} reviewers.
-{% endfor %}
+             This PR requires {{ item.requiredReviewers }} reviewers.
+ {% endfor %}
 
 teams:
-  - name: fourth-organization/ui-team
-    teamAssign: fourth-organization/ui-team
-    requiredReviews: 2
-  - name: fourth-organization/mobile-team
-    teamAssign: fourth-organization/mobile-team
+  - name: r/ui-team/
+    requiredReviewers: 2
+  - name: r/mobile-team/
     requiredReviewers: 4
