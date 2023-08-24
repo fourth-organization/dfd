@@ -23,6 +23,6 @@ teams:
   - name: r/ui-team/
     requiredReviewers: 1
     teamAssign: fourth-organization/ui-team
-  - name: r/mobile-team/
-    requiredReviewers: 4
-    teamAssign: fourth-organization/mobile-team
+  - name: r/mobile-teams/
+    requiredReviewers: 1
+    teamAssign: fourth-organization/ui-team
