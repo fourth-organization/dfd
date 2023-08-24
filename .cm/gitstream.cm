@@ -25,4 +25,4 @@ teams:
     teamAssign: fourth-organization/ui-team
   - name: r/mobile-teams/
     requiredReviewers: 1
-    teamAssign: fourth-organization/mobile-team
+    teamAssign: fourth-organization/ui-team
