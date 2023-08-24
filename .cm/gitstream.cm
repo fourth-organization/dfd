@@ -7,6 +7,9 @@ automations:
     if:  
       - {{ pr.author_teams | match(regex=item.name) }}
     run:
+      - action: set-required-approvals@v1
+        args:
+          approvals: {{ item.requiredReviewers }}
       - action: add-reviewers@v1
         args:
           reviewers: [{{ item.teamAssign }}] 
@@ -18,7 +21,7 @@ automations:
 
 teams:
   - name: r/ui-team/
-    requiredReviewers: 2
+    requiredReviewers: 1
     teamAssign: fourth-organization/ui-team
   - name: r/mobile-team/
     requiredReviewers: 4
