@@ -2,27 +2,19 @@
 manifest:
   version: 1.0
 automations:
- {% for item in teams %}
- review_team_name_{{ item.name }}: 
-    if:  
-      - {{ pr.author_teams | match(regex=item.name) | some }}
-    run:     
+  #Assign PRs that only affect rdocs to the technical writing team and add docs label
+  review_jsdoc:
+    if:
+      - {{ source.diff.files | matchDiffLines(regex=r/^=begin([\s\S]*?)=end/) | every }}
+    run:
+      - action: add-label@v1
+        args:
+            label: "📓 rdoc Only"
+            color: {{ colors.green }}
       - action: add-reviewers@v1
         args:
-          reviewers: [{{ item.teamAssign }}] 
-      - action: set-required-approvals@v1
-        args:
-          approvals: {{ item.requiredReviewers }}
-      - action: add-comment@v1
-        args: 
-          comment: | 
-             This PR requires {{ item.requiredReviewers }} reviewers.
- {% endfor %}
-
-teams:
-  - name: r/ui-team/
-    requiredReviewers: 1
-    teamAssign: fourth-organization/ui-team
-  - name: r/mobile-team/
-    requiredReviewers: 1
-    teamAssign: fourth-organization/mobile-team
+          reviewers: [fourth-organization/tech-writers]
+      - action: approve@v1
+      
+colors:
+  green: '0e8a16'#
