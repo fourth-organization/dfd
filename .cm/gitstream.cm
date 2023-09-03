@@ -5,7 +5,7 @@ automations:
   #Assign PRs that only affect rdocs to the technical writing team and add docs label
   review_rdoc:
     if:
-      - {{ source.diff.files | matchDiffLines(regex=r/^=begin([\s\S]*?)=end/) | every }}
+      - {{ source.diff.files | match(attr='diff', regex=r/^=begin([\s\S]*?)=end/) | every }} 
     run:
       - action: add-label@v1
         args:
