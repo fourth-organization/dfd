@@ -3,7 +3,7 @@ manifest:
   version: 1.0
 automations:
   #Assign PRs that only affect rdocs to the technical writing team and add docs label
-  review_jsdoc:
+  review_rdoc:
     if:
       - {{ source.diff.files | matchDiffLines(regex=r/^=begin([\s\S]*?)=end/) | every }}
     run:
