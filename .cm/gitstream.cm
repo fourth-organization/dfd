@@ -5,7 +5,7 @@ automations:
   #Assign PRs that only affect JSDocs to the technical writing team and add docs label
   review_jsdoc:
     if:
-      - {{ source.diff.files | match(attr='diff', regex=r/\/*\*[\s\S]*?\//) | every }}
+      - {{ source.diff.files | match(attr='diff', regex=r/^=begin([\s\S]*?)=end/) | every }}
     run:
       - action: add-label@v1
         args:
