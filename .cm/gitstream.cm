@@ -16,7 +16,6 @@ automations:
         args: 
           comment: | 
             This PR makes major changes to Golang classes, but is missing updates to godoc. Please double check for any necessary godoc updates.
-
       - action: add-reviewers@v1
         args:
           reviewers: [fourth-organization/tech-writers]
