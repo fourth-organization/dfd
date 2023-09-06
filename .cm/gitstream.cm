@@ -10,5 +10,5 @@ automations:
      - action: add-comment@v1
        args: 
          comment: | 
-             This PR modifies method input parameters, but is missing godoc changes. Please check to ensure no rdoc changes are necessary.
+             This PR modifies method input parameters, but is missing godoc changes. Please check to ensure no godoc changes are necessary.
 
