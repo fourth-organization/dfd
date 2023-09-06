@@ -1,4 +1,9 @@
-/*
+xcsdsdds
+fsdsdfsd
+
+sdfdf
+sefef
+sdf/*
 Gofmt formats Go programs.
 It uses tabs for indentation and blanks for alignment.
 Alignment assumes that an editor is using a fixed-width font.
