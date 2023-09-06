@@ -2,26 +2,23 @@
 manifest:
   version: 1.0
 automations:
-  #Require more extensive reviews for large Golang changes that lack godoc updates.
-  review_godoc_large:
-    if:
-      - true
-    run: 
+  review_new_class: 
+    if:  
+       - {{ is.go and is.new }} 
+       - {{ source.diff.files | match(attr='diff', regex=r/\/*[\s\S]*?\//) | nope }}
+    run:
       - action: add-label@v1
         args:
-          label: "⚠️ Missing godoc Label"
+          label: "⚠️ Missing godoc"
           color: {{ colors.yellow }}
       - action: add-comment@v1
         args: 
           comment: | 
-            This PR makes major changes {{ changes.percentage }} to Golang classes, but is missing updates to godoc. Please double check for any necessary godoc updates.
-      - action: add-reviewers@v1
-        args:
-          reviewers: [fourth-organization/tech-writers]
+            godoc is required for all Golang classes. Please add godoc to all new classes in this PR.
 
-changes:
-    additions: {{ branch.diff.files_metadata | filter(attr='file', regex=r/\S+/ ) | map(attr='additions') | sum / total.additions * 100 }}
-    percentage: {{ changes.additions | round }}
+is:
+    go: {{ files | extensions | match(regex=r/go/) | every }}
+    new: {{ source.diff.files | map(attr='original_file') | match(regex=r/^$/) | some }}
 
 colors:
   yellow: 'fbca04'
