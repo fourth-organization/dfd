@@ -5,8 +5,7 @@ automations:
   #Require more extensive reviews for large golang changes that lack godoc updates.
   review_godoc_large:
     if:
-      - {{ changes.percentage > 25}}
-      - {{ source.diff.files | match(attr='diff', regex=r/\/*[\s\S]*?\//) | nope }}
+      - true
     run: 
       - action: add-label@v1
         args:
@@ -15,19 +14,19 @@ automations:
       - action: add-comment@v1
         args: 
           comment: | 
-            This PR makes major changes to godoc classes, but is missing updates to godoc. Please double check for any necessary godoc updates.
+            This PR makes major changes {{ code_changes.additions }} to godoc classes, but is missing updates to godoc. Please double check for any necessary godoc updates.
 
       - action: add-reviewers@v1
         args:
           reviewers: [fourth-organization/tech-writers]
-changes:
-    additions: {{ branch.diff.files_metadata | filter(attr='file', list=resources ) | map(attr='additions') | sum / total.additions * 100 }}
-    percentage: {{ changes.additions | round }}
+code_changes:
+    additions: {{ branch.diff.files_metadata | filter(attr='file', list=resource_path) | map(attr='additions') | sum / total.additions * 100 }}
+    percentage: {{ code_changes.additions | round }}
 
 total:
   additions: {{ branch.diff.files_metadata | map(attr='additions') | sum }}
 
-resources:
+resource_path:
     - src/app
     - src/core
     - src/android
