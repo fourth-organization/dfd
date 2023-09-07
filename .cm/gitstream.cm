@@ -2,13 +2,34 @@
 manifest:
   version: 1.0
 automations:
-  review_parameters: 
-    if:  
-       - {{ source.diff.files | match(attr='diff', regex=r/@param/) | nope }}
-       - {{ source.diff.files | match(attr='diff', regex=r/func\s+\(.*\)/) | some }}
-    run:
-     - action: add-comment@v1
-       args: 
-         comment: | 
-             This PR modifies method input parameters, but is missing godoc changes. Please check to ensure no godoc changes are necessary.
+  #Require more extensive reviews for large golang changes that lack godoc updates.
+  review_godoc_large:
+    if:
+      - {{ changes.percentage > 25}}
+      - {{ source.diff.files | match(attr='diff', regex=r/\/*[\s\S]*?\//) | nope }}
+    run: 
+      - action: add-label@v1
+        args:
+          label: "⚠️ Missing godoc Label"
+          color: {{ colors.yellow }}
+      - action: add-comment@v1
+        args: 
+          comment: | 
+            This PR makes major changes to godoc classes, but is missing updates to godoc. Please double check for any necessary godoc updates.
 
+      - action: add-reviewers@v1
+        args:
+          reviewers: [fourth-organization/tech-writers]
+
+changes:
+    additions: {{ branch.diff.files_metadata | filter(attr='file', list=resources ) | map(attr='additions') | sum / total.additions * 100 }}
+    percentage: {{ changes.additions | round }}
+
+resources:
+    - src/app
+    - src/core
+    - src/android
+    - src/ios
+ 
+colors:
+  yellow: 'fbca04'
