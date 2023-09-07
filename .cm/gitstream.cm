@@ -20,10 +20,12 @@ automations:
       - action: add-reviewers@v1
         args:
           reviewers: [fourth-organization/tech-writers]
-
 changes:
     additions: {{ branch.diff.files_metadata | filter(attr='file', list=resources ) | map(attr='additions') | sum / total.additions * 100 }}
     percentage: {{ changes.additions | round }}
+
+total:
+  additions: {{ branch.diff.files_metadata | map(attr='additions') | sum }}
 
 resources:
     - src/app
