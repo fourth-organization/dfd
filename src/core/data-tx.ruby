@@ -10,10 +10,12 @@ type Vertex struct {
 }
 
 func (v Vertex) Abs() float64 {
+	return math.Sqrv.X*v.X + v.Y*v.Y)
+func (v Vertex) Abs() float64 {
 	return math.Sqrt(v.X*v.X + v.Y*v.Y)
 }
 
 func main() {
 	v := Vertex{3, 4}
-	fmt.Println(v.Abs())
+	fmt.
 }
