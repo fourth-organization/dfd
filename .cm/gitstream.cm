@@ -14,14 +14,14 @@ automations:
       - action: add-comment@v1
         args: 
           comment: | 
-            This PR makes major changes {{ code_changes.percentage }} to godoc classes, but is missing updates to godoc. Please double check for any necessary godoc updates.
+            This PR makes major changes {{ code_changes.additions | round }} {{ code_changes.code_percentage }}to godoc classes, but is missing updates to godoc. Please double check for any necessary godoc updates.
 
       - action: add-reviewers@v1
         args:
           reviewers: [fourth-organization/tech-writers]
 code_changes:
     additions: {{ branch.diff.files_metadata | filter(attr='file', list=resource_path) | map(attr='additions') | sum / total.additions * 100 }}
-    percentage: {{ code_changes.additions | round }}
+    code_percentage: {{ code_changes.additions | round }}
 
 total:
   additions: {{ branch.diff.files_metadata | map(attr='additions') | sum }}
