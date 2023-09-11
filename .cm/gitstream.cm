@@ -6,7 +6,7 @@ automations:
   {% for item in labels %}
   label_resource_percent_{{ item.name }}:
       if:
-        - {{ source.diff.files | match(attr='diff', regex=r/=/) | some }}
+        - {{ source.diff.files | match(attr='diff', regex=r/\=begin(?:.|\n)*?\=end/) | some }}
 
       run:
         - action: add-label@v1
