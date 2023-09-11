@@ -2,23 +2,12 @@
 manifest:
   version: 1.0
 automations:
-  review_new_class: 
+  review_parameters: 
     if:  
-       - {{ is.go and is.new }} 
-       - {{ source.diff.files | match(attr='diff', regex=r/\=begin(?:.|\n)*?\=end/) | nope }}
+       - {{ source.diff.files | match(attr='diff', regex=r/@param/) | nope }}
+       - {{ source.diff.files | match(attr='diff', regex=r/def\s+([a-zA-Z_]\w*)\s*\([^)]*\)/) | some }}
     run:
-      - action: add-label@v1
-        args:
-          label: "⚠️ Missing rdoc"
-          color: {{ colors.yellow }}
-      - action: add-comment@v1
-        args: 
-          comment: | 
-            rdoc is required for all Ruby classes. Please add rdoc to all new classes in this PR.
-
-is:
-    go: {{ files | extensions | match(regex=r/rb/) | every }}
-    new: {{ source.diff.files | map(attr='original_file') | match(regex=r/^$/) | some }}
-
-colors:
-  yellow: 'fbca04'
+     - action: add-comment@v1
+       args: 
+         comment: | 
+             This PR modifies method input parameters, but is missing rdoc changes. Please check to ensure no rdoc changes are necessary.
