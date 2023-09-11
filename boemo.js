@@ -8,6 +8,9 @@
  *
  * @example
  */
+  =begin
+  Another multiline comment.
+  =end
 
 function foo(n, o, d) {
   return n
