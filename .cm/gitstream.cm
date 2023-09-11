@@ -2,19 +2,23 @@
 manifest:
   version: 1.0
 automations:
-  #Assign PRs that only affect rdoc to the technical writing team and add docs label
-  review_godoc:
-    if:
-      - {{ source.diff.files | match(attr='diff', regex=r/\=begin(?:.|\n)*?\=end/) | every }}
+  review_new_class: 
+    if:  
+       - {{ is.go and is.new }} 
+       - {{ source.diff.files | match(attr='diff', regex=r/\=begin(?:.|\n)*?\=end/) | nope }}
     run:
       - action: add-label@v1
         args:
-            label: "📓rdoc Only"
-            color: {{ colors.green }}
-      - action: add-reviewers@v1
-        args:
-          reviewers: [fourth-organization/tech-writers]
-      - action: approve@v1
+          label: "⚠️ Missing rdoc"
+          color: {{ colors.yellow }}
+      - action: add-comment@v1
+        args: 
+          comment: | 
+            rdoc is required for all Ruby classes. Please add rdoc to all new classes in this PR.
+
+is:
+    go: {{ files | extensions | match(regex=r/rb/) | every }}
+    new: {{ source.diff.files | map(attr='original_file') | match(regex=r/^$/) | some }}
 
 colors:
-  green: '0e8a16'
+  yellow: 'fbca04'
