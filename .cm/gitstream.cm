@@ -1,13 +1,34 @@
 # -*- mode: yaml -*-
+
 manifest:
   version: 1.0
+
 automations:
-  review_parameters: 
-    if:  
-       - {{ source.diff.files | match(attr='diff', regex=r/@param/) | nope }}
-       - {{ source.diff.files | match(attr='diff', regex=r/def\s+([a-zA-Z_]\w*)\s*\([^)]*\)/) | some }}
-    run:
-     - action: add-comment@v1
-       args: 
-         comment: | 
-             This PR modifies method input parameters, but is missing rdoc changes. Please check to ensure no rdoc changes are necessary.
+  #Require more extensive reviews for large Java changes that lack Javadoc updates.
+  review_godoc_large:
+    if:
+      - {{ changes.ratio > 25}}
+      - {{ source.diff.files | matchDiffLines(regex=r/\/*[\s\S]*?\//) | nope }}
+    run: 
+      - action: add-label@v1
+        args:
+          label: "⚠️ Missing Godoc"
+          color: {{ colors.yellow }}
+      - action: add-comment@v1
+        args: 
+          comment: | 
+              This PR makes major changes to Golang classes, but is missing updates to Godoc. Please double check for any necessary Godoc updates.
+      - action: add-reviewers@v1
+        args:
+          reviewers: [fourth-organization/tech-writers]
+
+changes:
+  # Sum all the lines added/edited in the PR
+  additions: {{ branch.diff.files_metadata | map(attr='additions') | sum }}
+  # Sum all the line removed in the PR
+  deletions: {{ branch.diff.files_metadata | map(attr='deletions') | sum }}
+  # Calculate the ratio of new code
+  ratio: {{ (changes.additions / (changes.additions + changes.deletions)) * 100 | round(2) }}
+
+colors:
+  yellow: 'fbca04'
