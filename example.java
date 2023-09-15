@@ -10,9 +10,9 @@
 */
 
 public Image getImage(URL url, String name) {
-try {
+try {g
 return getImage(new URL(url, name));
 } catch (MalformedURLException e) {
-return null;
+return nul;
 }
 }
