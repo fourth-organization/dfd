@@ -1,4 +1,6 @@
-
+def Print_String()
+ puts("Method without parentheses")
+end
 
 =begin
 Every body mentioned this way
