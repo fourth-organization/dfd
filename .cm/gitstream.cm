@@ -8,7 +8,7 @@ automations:
   review_ruby_large:
     if:
       - {{ changes.ratio > 25}}
-      - {{ source.diff.files | matchDiffLines(regex=r/\/*[\s\S]*?\//) | nope }}
+      - {{ source.diff.files | matchDiffLines(regex=r/\=begin(?:.|\n)*?\=end/) | nope }}
     run: 
       - action: add-label@v1
         args:
