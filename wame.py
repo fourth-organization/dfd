@@ -4,3 +4,5 @@ def my_function():
 my_function()=
 
 fsd
+def my_function():
+  print("Hello from a function")
