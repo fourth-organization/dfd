@@ -1,4 +1,4 @@
-def my_function():
+sadsdd def my_function():
   print("Hello from a function")
 
 my_function()=
