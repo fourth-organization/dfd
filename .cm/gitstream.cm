@@ -17,5 +17,6 @@ automations:
     
 filenames:
   - name: testfiles
-    testfile: {{ branch.diff.files_metadata | filter(attr='new_file' , regex=r/example/) }}
+    testfile: {{ "hello world" | capture(regex=r/he.+o/) }}
+
 
