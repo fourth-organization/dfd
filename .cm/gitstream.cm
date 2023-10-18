@@ -17,5 +17,5 @@ automations:
     
 filenames:
   - name: testfiles
-    testfile: {{ source.diff.files | map(attr='new_file' , regex=r/^\w+./) | every }}
+    testfile: {{ branch.diff.files_metadata | match(attr='new_file' , regex=r/^\w+./) | every }}
 
