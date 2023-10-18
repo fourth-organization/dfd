@@ -20,6 +20,6 @@ boemo:
 
 filenames:
   - name: testfiles
-    testfile: {{ boemo.babe | capture(regex=r/he/) }}
+    testfile: {{ boemo.babe | capture(regex=r/^\w+./) }}
 
 
