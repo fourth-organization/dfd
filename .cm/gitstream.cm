@@ -12,7 +12,7 @@ automations:
       - action: add-comment@v1
         args:
           comment: |            
-             name: file name is {{ item.testfile }}
+             name: file name is {{ item.testfile }}  .............................. {{ boemo.babe}}
   {% endfor %}
     
 boemo:
