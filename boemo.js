@@ -12,3 +12,5 @@
 function foo(n, o, d) {
   return n
 }
+
+6u67
