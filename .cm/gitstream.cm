@@ -15,11 +15,11 @@ automations:
              name: file name is {{ item.testfile }}  .............................. {{ boemo.babe}}
   {% endfor %}
     
-boemo:
- babe: {{ branch.diff.files_metadata | map(attr='new_file') }}
+sourcefiles:
+ filelist: {{ branch.diff.files_metadata | map(attr='new_file') }}
 
 filenames:
   - name: testfiles
-    testfile: {{ boemo.babe | capture(regex=r/^\w+./) }}
+    testfile: {{ sourcefiles.filelist | capture(regex=r/^\w+./) }}
 
 
