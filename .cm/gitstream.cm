@@ -17,4 +17,5 @@ automations:
     
 filenames:
   - name: testfiles
-    testfile: {{ branch.diff.files_metadata | map(attr='file') }}
+    testfile: {{ source.diff.files | map(attr='new_file') }}
+
