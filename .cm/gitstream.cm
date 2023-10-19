@@ -26,7 +26,7 @@ sourcefiles:
  filelist: {{ branch.diff.files_metadata | map(attr='new_file') }}
 
 filenames:
-  - name: first
+ - name: first
     firstfile: {{ sourcefiles.filelist | capture(regex=r/^\w+/) }}
  - name: second
     secondfile: {{ sourcefiles.filelist | capture(regex=r/(?<=(?:[^,]*,){1})\w+/) }}
