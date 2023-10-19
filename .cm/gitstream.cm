@@ -8,8 +8,7 @@ automations:
   review_name_{{ item.name }}:
     if:     
       - {{ files | extensions | match(term='java') | every }}
-      - {{ branch.diff.files_metadata | match(attr='file', term=item.name + 'Test') | nope }} 
-      - {{ item.name | match(term="Test") | nope }}
+      - {{ branch.diff.files_metadata | match(attr='new_file' , term=item.name + 'Test') | nope }} 
 
     run:
       - action: add-label@v1
@@ -19,7 +18,7 @@ automations:
       - action: add-comment@v1
         args:
           comment: |            
-             name: file name is {{ item.testfile }} 
+             name: file name is {{ item.name }} 
   {% endfor %}
     
 sourcefiles:
