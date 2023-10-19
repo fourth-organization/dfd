@@ -27,7 +27,7 @@ sourcefiles:
 
 filenames:
   - name: first
-    firstfile: {{ sourcefiles.filelist | capture(regex=r/(?<=(?:[^,]*,){1})\w+/) }}
+    firstfile: {{ sourcefiles.filelist | capture(regex=r/^\w+/) }}
  - name: second
     secondfile: {{ sourcefiles.filelist | capture(regex=r/(?<=(?:[^,]*,){1})\w+/) }}
  - name: third
