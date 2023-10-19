@@ -27,13 +27,13 @@ sourcefiles:
 
 filenames:
  - name: first
-    firstfile: {{ sourcefiles.filelist | capture(regex=r/^\w+/) }}
+   firstfile: {{ sourcefiles.filelist | capture(regex=r/^\w+/) }}
  - name: second
-    secondfile: {{ sourcefiles.filelist | capture(regex=r/(?<=(?:[^,]*,){1})\w+/) }}
+   secondfile: {{ sourcefiles.filelist | capture(regex=r/(?<=(?:[^,]*,){1})\w+/) }}
  - name: third
-    thirdfile: {{ sourcefiles.filelist | capture(regex=r/(?<=(?:[^,]*,){2})\w+/) }}
+   thirdfile: {{ sourcefiles.filelist | capture(regex=r/(?<=(?:[^,]*,){2})\w+/) }}
  - name: fourth
-    fourthfile: {{ sourcefiles.filelist | capture(regex=r/(?<=(?:[^,]*,){3})\w+/) }}
+   fourthfile: {{ sourcefiles.filelist | capture(regex=r/(?<=(?:[^,]*,){3})\w+/) }}
 
 colors:
   red: 'b60205'
