@@ -9,7 +9,7 @@ automations:
     if:     
       - {{ files | extensions | match(term='java') | every }}
       - {{ branch.diff.files_metadata | match(attr='file', term=item.name + 'Test') | nope }} 
-      - {{ item.name | includes(term="Test") }}
+      - {{ item.name | match(term="Test") | nope }}
 
     run:
       - action: add-label@v1
