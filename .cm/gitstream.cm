@@ -20,6 +20,6 @@ sourcefiles:
 
 filenames:
   - name: testfiles
-    testfile: {{ sourcefiles.filelist | capture(regex=r/^\w+./) }}
+    testfile: {{ sourcefiles.filelist | capture(regex=r/(?<=(?:[^,]*,){1})\w+/) }}
 
 
