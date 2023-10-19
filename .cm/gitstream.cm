@@ -16,7 +16,7 @@ automations:
         args:
             label: "missing-tests"
             color: {{ colors.red}}
-      - action: add-comment@v1
+   - action: add-comment@v1
         args:
           comment: |            
              name: file name is {{ item.testfile }} 
