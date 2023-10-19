@@ -18,7 +18,7 @@ automations:
       - action: add-comment@v1
         args:
           comment: |            
-             name: file name is {{ item.filename }} 
+             Please make sure that every Java file you create has tests created. Here are Java files that lack test files {{ item.filename }} 
   {% endfor %}
     
 sourcefiles:
