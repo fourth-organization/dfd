@@ -8,7 +8,7 @@ automations:
   review_name_{{ item.name }}:
     if:     
       - {{ files | extensions | match(term='java') | every }}
-      - {{ branch.diff.files_metadata | match(attr='new_file' , term=item.name + 'Test') | nope }} 
+      - {{ branch.diff.files_metadata | match(attr='new_file' , term=item.filename + 'Test') | nope }} 
 
     run:
       - action: add-label@v1
@@ -18,7 +18,7 @@ automations:
       - action: add-comment@v1
         args:
           comment: |            
-             name: file name is {{ item.name }} 
+             name: file name is {{ item.filename }} 
   {% endfor %}
     
 sourcefiles:
@@ -26,13 +26,13 @@ sourcefiles:
 
 filenames:
  - name: first
-   firstfile: {{ sourcefiles.filelist | capture(regex=r/^\w+/) }}
+   filename: {{ sourcefiles.filelist | capture(regex=r/^\w+/) }}
  - name: second
-   secondfile: {{ sourcefiles.filelist | capture(regex=r/(?<=(?:[^,]*,){1})\w+/) }}
+   filename: {{ sourcefiles.filelist | capture(regex=r/(?<=(?:[^,]*,){1})\w+/) }}
  - name: third
-   thirdfile: {{ sourcefiles.filelist | capture(regex=r/(?<=(?:[^,]*,){2})\w+/) }}
+   filename: {{ sourcefiles.filelist | capture(regex=r/(?<=(?:[^,]*,){2})\w+/) }}
  - name: fourth
-   fourthfile: {{ sourcefiles.filelist | capture(regex=r/(?<=(?:[^,]*,){3})\w+/) }}
+   filename: {{ sourcefiles.filelist | capture(regex=r/(?<=(?:[^,]*,){3})\w+/) }}
 
 colors:
   red: 'b60205'
