@@ -6,8 +6,7 @@ manifest:
 automations:
   {% for item in filenames %}
   review_name_{{ item.name }}:
-    if: 
-      
+    if:     
       - {{ files | extensions | match(term='java') | every }}
       - {{ branch.diff.files_metadata | match(attr='file', term=item.name + 'Test') | nope }} 
       - {{item.name| includes(term="Test") | nope }}
