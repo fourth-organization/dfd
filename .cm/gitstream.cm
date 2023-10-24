@@ -6,12 +6,13 @@ manifest:
 {% set testCheck = [true] %}
 {% set missingTests = [] %}
 {% set newFiles = [(source.diff.files | map(attr='original_file'))] %}
+{% set wild = newFiles %}
 
 {% for file in newFiles %}
 
 {% if (newfilesinpr | match(term=file) | some) %}
-{% set wild = newFiles %}
-{% set missingTests = [file] %}
+
+{% set missingTests = missingTests + [file] %}
 {% set testCheck = [false]  %}
 {% endif %}
 {% endfor %}
