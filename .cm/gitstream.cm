@@ -16,7 +16,7 @@ manifest:
 {% endfor %}
 
 automations:
-  review_name:
+  review_me:
     if:     
       - true
     run:
