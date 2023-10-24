@@ -3,13 +3,25 @@
 manifest:
   version: 1.0
 
+{% set testCheck = [true] %}
+{% set missingTests = [] %}
+{% set newFiles = [ {{ source.diff.files | map(attr='original_file') | match(regex=r/^$/) ] %}
+# TODO: Make the previous line only work for new files of a specified programming language
+
+{% for file in newFiles %}
+{% if(newfilesinpr | match(term=file + {testSuffix}) | nope) %}
+# TODO: find a way to make the previous line ignore the file extension for the items in `file`
+
+{% set missingTests = missingTests + [file] %}
+{% set testCheck = [false]  %}
+{% endif %}
+{% endfor %}
+
 automations:
   {% for item in filenames %}
   review_name_{{ item.name }}:
     if:     
-      - {{ files | extensions | match(term='java') | every }}
-      - {{ branch.diff.files_metadata | match(attr='new_file' , term=item.filename + 'Test') | nope }} 
-
+      - true
     run:
       - action: add-label@v1
         args:
@@ -18,23 +30,13 @@ automations:
       - action: add-comment@v1
         args:
           comment: |            
-             Please make sure that every Java file you create has tests created. Here are Java files that lack test files {{ item.filename }} 
+               Hello { missingTests}} 
   {% endfor %}
     
-sourcefiles:
- filelist: {{ branch.diff.files_metadata | map(attr='new_file') }}
 
-filenames:
- - name: first
-   filename: {{ sourcefiles.filelist | capture(regex=r/^\w+/) }}
- - name: second
-   filename: {{ sourcefiles.filelist | capture(regex=r/(?<=(?:[^,]*,){1})\w+/) }}
- - name: third
-   filename: {{ sourcefiles.filelist | capture(regex=r/(?<=(?:[^,]*,){2})\w+/) }}
- - name: fourth
-   filename: {{ sourcefiles.filelist | capture(regex=r/(?<=(?:[^,]*,){3})\w+/) }}
+testSuffix: 'Test.ts'
 
-colors:
-  red: 'b60205'
+newfilesinpr:
+  {{ branch.diff.files_metadata | map(attr='new_file')}}
 
 
