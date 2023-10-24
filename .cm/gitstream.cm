@@ -7,6 +7,7 @@ manifest:
 {% set wild = "hrrlo" %}
 {% set missingTests = [] %}
 {% set newFiles = [(source.diff.files | map(attr='original_file') | match(regex=r/^$/))] %}
+{% set wild = newFiles %}
 
 {% for file in newFiles %}
 {% set filos = file %}
