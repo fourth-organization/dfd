@@ -5,8 +5,7 @@ manifest:
 
 {% set testCheck = [true] %}
 {% set missingTests = [] %}
-{% set newFiles = {{ source.diff.files | map(attr='original_file') | match(regex=r/^$/) }} %}
-{% set filelist = [newFiles] %}
+{% set newFiles = [(source.diff.files | map(attr='original_file') | match(regex=r/^$/)] %}
 
 {% for file in newFiles %}
 {% if (newfilesinpr | match(term=file) | nope) %}
