@@ -5,10 +5,10 @@ manifest:
 
 {% set testCheck = [true] %}
 {% set missingTests = [] %}
-{% set newFiles = [ {{ source.diff.files | map(attr='original_file') | match(regex=r/^$/) ] %}
+{% set newFiles = [ {{ source.diff.files | map(attr='original_file') | match(regex=r/^$/) }} ] %}
 
 {% for file in newFiles %}
-{% if(newfilesinpr | match(term=file + {testSuffix}) | nope) %}
+{% if (newfilesinpr | match(term=file + {testSuffix}) | nope) %}
 
 {% set missingTests = missingTests + [file] %}
 {% set testCheck = [false]  %}
@@ -16,7 +16,7 @@ manifest:
 {% endfor %}
 
 automations:
- review_name:
+  review_name:
     if:     
       - true
     run:
