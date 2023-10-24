@@ -10,10 +10,8 @@ manifest:
 {% set wild = newFiles %}
 
 {% for file in newFiles %}
-{% set filos = file %}
-{% set will = "wilos" %}
 
-{% if (newfilesinpr | match(term=file) | nope) %}
+{% if (newfilesinpr | match(term=file) | some) %}
 
 {% set missingTests = missingTests + [file] %}
 {% set testCheck = [false]  %}
@@ -32,7 +30,7 @@ automations:
       - action: add-comment@v1
         args:
           comment: |            
-               Hello {{ filos }} hey {{ will }} fum {{ wild }}
+               Hello {{ missingTests }} hey {{ will }} fum {{ wild }}
      
 testSuffix: 'Test.ts'
 
