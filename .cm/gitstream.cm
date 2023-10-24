@@ -11,7 +11,7 @@ manifest:
 
 {% if (newfilesinpr | match(term=file) | some) %}
 {% set wild = newFiles %}
-{% set missingTests = {file] %}
+{% set missingTests = [file] %}
 {% set testCheck = [false]  %}
 {% endif %}
 {% endfor %}
