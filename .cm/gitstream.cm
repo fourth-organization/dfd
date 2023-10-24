@@ -8,7 +8,7 @@ manifest:
 {% set newFiles = [(source.diff.files | map(attr='original_file') | match(regex=r/^$/))] %}
 
 {% for file in newFiles %}
-{% set filos  = file %}
+{% set filos = file %}
 {% if (newfilesinpr | match(term=file) | nope) %}
 
 {% set missingTests = missingTests + [file] %}
