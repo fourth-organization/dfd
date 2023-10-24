@@ -9,7 +9,7 @@ manifest:
 
 {% for file in newFiles %}
 {% set filos = file %}
-{% set will = 'wilos' %}
+{% set will = "wilos" %}
 
 {% if (newfilesinpr | match(term=file) | nope) %}
 
