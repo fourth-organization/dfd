@@ -16,8 +16,7 @@ manifest:
 {% endfor %}
 
 automations:
-  {% for item in filenames %}
-  review_name_{{ item.name }}:
+ review_name:
     if:     
       - true
     run:
@@ -29,9 +28,7 @@ automations:
         args:
           comment: |            
                Hello { missingTests}} 
-  {% endfor %}
     
-
 testSuffix: 'Test.ts'
 
 newfilesinpr:
