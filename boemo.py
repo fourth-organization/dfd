@@ -1,4 +1,4 @@
-def my_function(fname):
+vdrgert def my_function(fname):
   print(fname + " Refsnes")
 
 my_function("Emil")
