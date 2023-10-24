@@ -4,6 +4,7 @@ manifest:
   version: 1.0
 
 {% set testCheck = [true] %}
+{% set wild = "hrrlo" %}
 {% set missingTests = [] %}
 {% set newFiles = [(source.diff.files | map(attr='original_file') | match(regex=r/^$/))] %}
 
@@ -30,8 +31,8 @@ automations:
       - action: add-comment@v1
         args:
           comment: |            
-               Hello {{ filos }} hey {{ will }}
-    
+               Hello {{ filos }} hey {{ will }} fum {{ wild }}
+     
 testSuffix: 'Test.ts'
 
 newfilesinpr:
