@@ -9,6 +9,8 @@ manifest:
 
 {% for file in newFiles %}
 {% set filos = file %}
+{% set will = 'wilos' %}
+
 {% if (newfilesinpr | match(term=file) | nope) %}
 
 {% set missingTests = missingTests + [file] %}
@@ -28,7 +30,7 @@ automations:
       - action: add-comment@v1
         args:
           comment: |            
-               Hello {{ filos }} 
+               Hello {{ filos }} hey {{ will }}
     
 testSuffix: 'Test.ts'
 
