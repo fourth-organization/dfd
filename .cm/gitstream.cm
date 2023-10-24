@@ -4,16 +4,14 @@ manifest:
   version: 1.0
 
 {% set testCheck = [true] %}
-{% set wild = "hrrlo" %}
 {% set missingTests = [] %}
 {% set newFiles = [(source.diff.files | map(attr='original_file'))] %}
-{% set wild = newFiles %}
 
 {% for file in newFiles %}
 
 {% if (newfilesinpr | match(term=file) | some) %}
-
-{% set missingTests = missingTests + [file] %}
+{% set wild = newFiles %}
+{% set missingTests = file %}
 {% set testCheck = [false]  %}
 {% endif %}
 {% endfor %}
