@@ -1,4 +1,4 @@
-def my_function():
+sdafasdasddef my_function():
   print("Hello from a function")
 
 my_function()=
