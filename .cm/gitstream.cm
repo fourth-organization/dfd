@@ -5,7 +5,7 @@ manifest:
 # Find all new JS files
 {% set missList = [] %}
 {% set testList = [] %}
-newFiles: (source.diff.files | map(attr='new_file'))
+{% set newFiles = (source.diff.files | map(attr='new_file')) %}
 {% set filelist = newFiles %}
 # Find all new JS tests
 newTests: {{ source.diff.files | filter(attr='new_file', regex=r/src\/.*\.test\.js$/) | filter(attr='original_file', regex=r/^$/) | map(attr='new_file') }}
