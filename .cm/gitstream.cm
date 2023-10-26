@@ -2,15 +2,17 @@
 manifest:
   version: 1.0
 
+{% set missList = [] %}
+{% set testList = [] %}
+
 # Find all new JS files
-newFiles: {{ source.diff.files | map(attr='new_file') }}
+newFiles: (source.diff.files | map(attr='new_file'))
 {% set filelist = newFiles %}
 # Find all new JS tests
 newTests: {{ source.diff.files | filter(attr='new_file', regex=r/src\/.*\.test\.js$/) | filter(attr='original_file', regex=r/^$/) | map(attr='new_file') }}
 
 # The list of JS files that are missing tests
-{% set missList = [] %}
-{% set testList = [] %}
+
 {% for file in newFiles %}
 {% set filename = [file] %}
 {% set parsedName = ( file | string | capture(regex=r/.*(?=.js$)/) ) %}
