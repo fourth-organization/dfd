@@ -1,34 +1,41 @@
 # -*- mode: yaml -*-
+
 manifest:
   version: 1.0
 
-# Find all new JS files
-{% set missList = [] %}
-{% set testList = [] %}
-{% set newFiles = (source.diff.files | map(attr='original_file')) %}
-{% set filelist = newFiles %}
-# Find all new JS tests
-newTests: {{ source.diff.files | filter(attr='new_file', regex=r/src\/.*\.test\.js$/) | filter(attr='original_file', regex=r/^$/) | map(attr='new_file') }}
-
-# The list of JS files that are missing tests
+{% set testCheck = [true] %}
+{% set wild = "hrrlo" %}
+{% set missingTests = [] %}
+{% set newFiles = [(source.diff.files | map(attr='original_file'))] %}
+{% set wild = newFiles %}
 
 {% for file in newFiles %}
-{% set wilos = [file] %}
-{% set parsedName = ( file | string | capture(regex=r/.*(?=.js$)/) ) %}
-{% set testList = testList + [parsedName] %}
-{% if (newTests | match(term=parsedName) | nope ) %}
-{% set missList = missList + [file] %}
+
+{% if (newfilesinpr | match(term=file) | some) %}
+
+{% set missingTests = missingTests + [file] %}
+{% set testCheck = [false]  %}
 {% endif %}
-{% endfor %} 
+{% endfor %}
 
 automations:
-  new_files_check:
-    if:
+  review_me:
+    if:     
       - true
-    run: 
+    run:
+      - action: add-label@v1
+        args:
+            label: "missing-tests"
+            color: {{ colors.red}}
       - action: add-comment@v1
         args:
-          comment: |
-               Here are the file names: {{ wilos }} and {{ filelist }}
+          comment: |            
+               Hello {{ missingTests }} hey {{ will }} fum {{ wild }}
+     
+testSuffix: 'Test.ts'
 
+newfilesinpr:
+  {{ branch.diff.files_metadata | map(attr='new_file')}}
 
+colors:
+  red: 'b60205'
