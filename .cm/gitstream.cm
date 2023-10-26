@@ -28,13 +28,6 @@ automations:
       - action: add-comment@v1
         args:
           comment: |
-              Here are the file names: {{ filename }}
+               Here are the file names: {{ filename }}
 
-            **New Files**
-            {{ newFiles }}
-            **New Tests**
-            {{ newTests }}
-            **Missing Tests**
-            {{ missList }}
-            **Parsed Names**
-            {{ testList }}
+
