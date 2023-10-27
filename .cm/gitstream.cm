@@ -2,32 +2,24 @@
 manifest:
   version: 1.0
 
-# Find all new JS files
-{% set missList = [] %}
-{% set testList = [] %}
-newFiles: {{ source.diff.files | map(attr='original_file') }}
-{% set filelist = newFiles %}
-# Find all new JS tests
+newFiles: {{ source.diff.files | filter(attr='new_file', regex=r/^src\/(?!.*\.test\.js$).*\.js$/) | filter(attr='original_file', regex=r/^$/) | map(attr='new_file') }}
 newTests: {{ source.diff.files | filter(attr='new_file', regex=r/src\/.*\.test\.js$/) | filter(attr='original_file', regex=r/^$/) | map(attr='new_file') }}
 
-# The list of JS files that are missing tests
-
-{% for file in newFiles %}
-{% set missList = missList + [file] %}
-{% set parsedName = ( file | string | capture(regex=r/.*(?=.js$)/) ) %}
-{% set testList = testList + [parsedName] %}
-{% if (newTests | match(term=parsedName) | nope ) %}
-{% set missList = missList + [file] %}
-{% endif %}
-{% endfor %} 
+newFilesCount: {{ source.diff.files | filter(attr='new_file', regex=r/^src\/(?!.*\.test\.js$).*\.js$/) | filter(attr='original_file', regex=r/^$/) | length }}
+newTestsCount: {{ source.diff.files | filter(attr='new_file', regex=r/src\/.*\.test\.js$/) | filter(attr='original_file', regex=r/^$/) | length }}
 
 automations:
-  new_files_check:
+  review_missing_javascript_tests:
     if:
-      - true
+      - {{ newFilesCount != newTestsCount }}
     run: 
-      - action: add-comment@v1
+      - action: request-changes@v1
         args:
           comment: |
-               Here are the file names: {{ missList }} and {{ filelist }}
+            Some of your new JavaScript files are missing corresponding tests. Please ensure that all new files have a corresponding test file.
 
+            **New Files**: {{ newFilesCount }}
+            {{ newFiles }}
+
+            **New Tests**: {{ newTestsCount }}
+            {{ newTests }}
