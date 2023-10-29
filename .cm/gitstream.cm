@@ -5,8 +5,9 @@ manifest:
 automations:
   review_java_test_name:
     if:
-       - {{ is.java and is.new }}
-       - {{ source.diff.files | match(attr='new_file', regex=r/Test/) | nope }}
+       - {{ is.java and is.new }}     
+       - {{ source.diff.files | match(attr='new_file', regex=r/src\/test\//) | every }} # checking if it is a test file
+       - {{ source.diff.files | match(attr='new_file', regex=r/Test.java$/) | nope }}
     run: 
       - action: request-changes@v1
         args:
