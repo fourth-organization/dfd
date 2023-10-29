@@ -13,6 +13,10 @@ automations:
     if:
       - {{ newFilesCount != newTestsCount }}
     run: 
+      - action: add-label@v1
+        args:
+            label: "missing-tests"
+            color: {{ colors.red}}    
       - action: request-changes@v1
         args:
           comment: |
@@ -23,3 +27,5 @@ automations:
 
             **New Tests**: {{ newTestsCount }}
             {{ newTests }}
+colors:
+  red: 'b60205'
