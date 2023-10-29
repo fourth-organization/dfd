@@ -2,14 +2,14 @@
 manifest:
   version: 1.0
 
-newFiles: {{ source.diff.files | filter(attr='new_file', regex=r/^app\/(?!.*\_spec\.rb$).*\.rb$/) | filter(attr='original_file', regex=r/^$/) | map(attr='new_file') }}
-newTests: {{ source.diff.files | filter(attr='new_file', regex=r/spec\/.*\_spec\.rb$/) | filter(attr='original_file', regex=r/^$/) | map(attr='new_file') }}
+newFiles: {{ source.diff.files | filter(attr='new_file', regex=r/^src\/(?!test_.*\.py$).*\.py$/) | filter(attr='original_file', regex=r/^$/) | map(attr='new_file') }}
+newTests: {{ source.diff.files | filter(attr='new_file', regex=r/^tests\/test_.*\.py$/) | filter(attr='original_file', regex=r/^$/) | map(attr='new_file') }}
 
-newFilesCount: {{ source.diff.files | filter(attr='new_file', regex=r/^app\/(?!.*\_spec\.rb$).*\.rb$/) | filter(attr='original_file', regex=r/^$/) | length }}
-newTestsCount: {{ source.diff.files | filter(attr='new_file', regex=r/spec\/.*\_spec\.rb$/) | filter(attr='original_file', regex=r/^$/) | length }}
+newFilesCount: {{ source.diff.files | filter(attr='new_file', regex=r/^src\/(?!test_.*\.py$).*\.py$/) | filter(attr='original_file', regex=r/^$/) | length }}
+newTestsCount: {{ source.diff.files | filter(attr='new_file', regex=r/^tests\/test_.*\.py$/) | filter(attr='original_file', regex=r/^$/) | length }}
 
 automations:
-  review_missing_ruby_tests:
+  review_missing_python_tests:
     if:
       - {{ newFilesCount != newTestsCount }}
     run: 
@@ -20,7 +20,7 @@ automations:
       - action: request-changes@v1
         args:
           comment: |
-            Some of your new Ruby files are missing corresponding tests. Please ensure that all new files have a corresponding test file.
+            Some of your new Python files are missing corresponding tests. Please ensure that all new files have a corresponding test file.
 
             **New Files**: {{ newFilesCount }}
             {{ newFiles }}
