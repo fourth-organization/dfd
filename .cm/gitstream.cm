@@ -2,14 +2,14 @@
 manifest:
   version: 1.0
 
-newFiles: {{ source.diff.files | filter(attr='new_file', regex=r/^src\/(?!test_.*\.py$).*\.py$/) | filter(attr='original_file', regex=r/^$/) | map(attr='new_file') }}
-newTests: {{ source.diff.files | filter(attr='new_file', regex=r/^tests\/test_.*\.py$/) | filter(attr='original_file', regex=r/^$/) | map(attr='new_file') }}
+newFiles: {{ source.diff.files | filter(attr='new_file', regex=r/^src\/(?!.*\_test\.go$).*\.go$/) | filter(attr='original_file', regex=r/^$/) | map(attr='new_file') }}
+newTests: {{ source.diff.files | filter(attr='new_file', regex=r/tests\/.*\_test\.go$/) | filter(attr='original_file', regex=r/^$/) | map(attr='new_file') }}
 
-newFilesCount: {{ source.diff.files | filter(attr='new_file', regex=r/^src\/(?!test_.*\.py$).*\.py$/) | filter(attr='original_file', regex=r/^$/) | length }}
-newTestsCount: {{ source.diff.files | filter(attr='new_file', regex=r/^tests\/test_.*\.py$/) | filter(attr='original_file', regex=r/^$/) | length }}
+newFilesCount: {{ source.diff.files | filter(attr='new_file', regex=r/^src\/(?!.*\_test\.go$).*\.go$//) | filter(attr='original_file', regex=r/^$/) | length }}
+newTestsCount: {{ source.diff.files | filter(attr='new_file', regex=r/tests\/.*\_test\.go$/) | filter(attr='original_file', regex=r/^$/) | length }}
 
 automations:
-  review_missing_python_tests:
+  review_missing_golang_tests:
     if:
       - {{ newFilesCount != newTestsCount }}
     run: 
@@ -20,7 +20,7 @@ automations:
       - action: request-changes@v1
         args:
           comment: |
-            Some of your new Python files are missing corresponding tests. Please ensure that all new files have a corresponding test file.
+            Some of your new Golang files are missing corresponding tests. Please ensure that all new files have a corresponding test file.
 
             **New Files**: {{ newFilesCount }}
             {{ newFiles }}
