@@ -17,4 +17,4 @@ automations:
 
 is:
     java: {{ files | extensions | match(term='java') | every }}
-    new: {{ source.diff.files | map(attr='original_file') | match(regex=r/^$/)
+    new: {{ source.diff.files | map(attr='original_file') | match(regex=r/^$/) }}
