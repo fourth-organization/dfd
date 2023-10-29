@@ -2,14 +2,14 @@
 manifest:
   version: 1.0
 
-newFiles: {{ source.diff.files | filter(attr='new_file', regex=r/^src\/(?!.*\.test\.js$).*\.js$/) | filter(attr='original_file', regex=r/^$/) | map(attr='new_file') }}
-newTests: {{ source.diff.files | filter(attr='new_file', regex=r/src\/.*\.test\.js$/) | filter(attr='original_file', regex=r/^$/) | map(attr='new_file') }}
+newFiles: {{ source.diff.files | filter(attr='new_file', regex=r/^src\/(?!.*\.test\.java$).*\.java$/) | filter(attr='original_file', regex=r/^$/) | map(attr='new_file') }}
+newTests: {{ source.diff.files | filter(attr='new_file', regex=r/src\/.*\.test\.java$/) | filter(attr='original_file', regex=r/^$/) | map(attr='new_file') }}
 
-newFilesCount: {{ source.diff.files | filter(attr='new_file', regex=r/^src\/(?!.*\.test\.js$).*\.js$/) | filter(attr='original_file', regex=r/^$/) | length }}
-newTestsCount: {{ source.diff.files | filter(attr='new_file', regex=r/src\/.*\.test\.js$/) | filter(attr='original_file', regex=r/^$/) | length }}
+newFilesCount: {{ source.diff.files | filter(attr='new_file', regex=r/^src\/(?!.*\.test\.java$).*\.java$/) | filter(attr='original_file', regex=r/^$/) | length }}
+newTestsCount: {{ source.diff.files | filter(attr='new_file', regex=r/src\/.*\.test\.java$/) | filter(attr='original_file', regex=r/^$/) | length }}
 
 automations:
-  review_missing_javascript_tests:
+  review_missing_java_tests:
     if:
       - {{ newFilesCount != newTestsCount }}
     run: 
@@ -20,7 +20,7 @@ automations:
       - action: request-changes@v1
         args:
           comment: |
-            Some of your new JavaScript files are missing corresponding tests. Please ensure that all new files have a corresponding test file.
+            Some of your new Java files are missing corresponding tests. Please ensure that all new files have a corresponding test file.
 
             **New Files**: {{ newFilesCount }}
             {{ newFiles }}
