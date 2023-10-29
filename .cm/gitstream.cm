@@ -12,7 +12,7 @@ automations:
       - action: request-changes@v1
         args:
           comment: |
-              The test file name does not follow the Python test name conventions. A test file name needs to have the prefix test_ before class name. For example, if you are testing a class file called Data.py then the test file name has to be test_data.py.
+              The test file name does not follow the Python test name conventions. A test file name needs to have the suffix _test before class name. For example, if you are testing a class file called Data.go then the test file name has to be data_test.go.
 
 is:
     python: {{ files | extensions | match(term='py') | every }}
