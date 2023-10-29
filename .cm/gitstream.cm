@@ -2,30 +2,18 @@
 manifest:
   version: 1.0
 
-newFiles: {{ source.diff.files | filter(attr='new_file', regex=r/^src\/(?!.*\_test\.go$).*\.go$/) | filter(attr='original_file', regex=r/^$/) | map(attr='new_file') }}
-newTests: {{ source.diff.files | filter(attr='new_file', regex=r/tests\/.*\_test\.go$/) | filter(attr='original_file', regex=r/^$/) | map(attr='new_file') }}
-
-newFilesCount: {{ source.diff.files | filter(attr='new_file', regex=r/^src\/(?!.*\_test\.go$).*\.go$/) | filter(attr='original_file', regex=r/^$/) | length }}
-newTestsCount: {{ source.diff.files | filter(attr='new_file', regex=r/tests\/.*\_test\.go$/) | filter(attr='original_file', regex=r/^$/) | length }}
-
 automations:
-  review_missing_golang_tests:
+  review_java_test_name:
     if:
-      - {{ newFilesCount != newTestsCount }}
+       - {{ is.java and is.new }}
+       - {{ source.diff.files | match(attr='new_file', regex=r/Test/) | nope }}
     run: 
-      - action: add-label@v1
-        args:
-            label: "⚠️ Missing Tests"
-            color: {{ colors.orange }}    
       - action: request-changes@v1
         args:
           comment: |
-            Some of your new Golang files are missing corresponding tests. Please ensure that all new files have a corresponding test file.
+              The test file name does not follow the Java test name convetions. A test file name need to have the word Test at the end of class name. For example,
+              if you are testing a class called Data then the test file name has to be DataTest.
 
-            **New Files**: {{ newFilesCount }}
-            {{ newFiles }}
-
-            **New Tests**: {{ newTestsCount }}
-            {{ newTests }}
-colors:
-  orange: 'd93f0b'
+is:
+    java: {{ files | extensions | match(term='java') | every }}
+    new: {{ source.diff.files | map(attr='original_file') | match(regex=r/^$/)
