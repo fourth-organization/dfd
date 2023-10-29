@@ -12,7 +12,7 @@ automations:
       - action: request-changes@v1
         args:
           comment: |
-              The test file name does not follow the Java test name convetions. A test file name need to have the word Test at the end of class name. For example, if you are testing a class called Data then the test file name has to be DataTest.
+              The test file name does not follow the Java test name convetions. A test file name need to have the word Test at the end of class name. For example, if you are testing a class called Data then the test file name has to be DataTest.java.
 
 is:
     java: {{ files | extensions | match(term='java') | every }}
