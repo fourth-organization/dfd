@@ -16,7 +16,7 @@ automations:
       - action: add-label@v1
         args:
             label: "⚠️ Missing Tests"
-            color: {{ colors.red}}    
+            color: {{ colors.orange }}    
       - action: request-changes@v1
         args:
           comment: |
@@ -28,4 +28,4 @@ automations:
             **New Tests**: {{ newTestsCount }}
             {{ newTests }}
 colors:
-  red: 'b60205'
+  orange: 'd93f0b'
