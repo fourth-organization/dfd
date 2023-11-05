@@ -10,5 +10,4 @@ automations:
       - action: request-changes@v1
         args:
           comment: | 
-              Request change and aske the author to update the PR to follow recommended HTML title lengths.
-              An optimum title contains characters between 30 and 60 characters.
+              The title added is below or above the recommended number of characters. An optimum title contains characters between 30 and 60 characters.
