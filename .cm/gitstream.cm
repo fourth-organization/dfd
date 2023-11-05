@@ -5,8 +5,8 @@ automations:
   flag_missing_html_tags:
     if:
       - {{ is.html and is.new }}
-      - {{ source.diff.files | matchDiffLines(regex=r/rel="canonical"/) | some }}
-      - {{ source.diff.files | matchDiffLines(regex=r/meta name="robots"/) | some}}
+      - {{ source.diff.files | matchDiffLines(regex=r/rel="canonical"/) | nope }}
+      - {{ source.diff.files | matchDiffLines(regex=r/meta name="robots"/) | nope }}
     run: 
       - action: add-label@v1
         args:
