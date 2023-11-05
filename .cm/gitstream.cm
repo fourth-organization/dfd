@@ -2,24 +2,13 @@ manifest:
   version: 1.0
 
 automations:
-  flag_missing_html_tags:
+  enforce_html_title_length:
     if:
-      - {{ is.html and is.new }}
-      - {{ source.diff.files | matchDiffLines(regex=r/rel="canonical"/) | nope }}
-      - {{ source.diff.files | matchDiffLines(regex=r/meta name="robots"/) | nope }}
+      - {{ files | extensions | match(term='html') | every }}
+      - {{ source.diff.files | matchDiffLines(regex=r/(<title>([\w\W]{1,29})<\/title>)|(<title>([\w\W]{61,})<\/title>)/) | some }}
     run: 
-      - action: add-label@v1
-        args:
-          label: "⚠️ Missing crucial tag"
-          color: {{ colors.yellow }}
       - action: request-changes@v1
         args:
           comment: | 
-                 Crucial tags are missing. Please add crucial tags which are: canonical and robot.
-
-is:
-    html: {{ files | extensions | match(term='html') | every }}
-    new: {{ source.diff.files | map(attr='original_file') | match(regex=r/^$/) | some }}
-
-colors:
-  yellow: 'fbca04'
+              Request change and aske the author to update the PR to follow recommended HTML title lengths.
+              An optimum title contains characters between 30 and 60 characters.
