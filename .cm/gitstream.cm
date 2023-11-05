@@ -2,11 +2,24 @@ manifest:
   version: 1.0
 
 automations:
-  review_todo_comments:
+  flag_missing_html_tags:
     if:
-      - {{ source.diff.files | matchDiffLines(regex=r/(TODO)|(todo)/) | some }}
+      - {{ is.html and is.new }}
+      - {{ source.diff.files | matchDiffLines(regex=r/rel="canonical"/) | some }}
+      - {{ source.diff.files | matchDiffLines(regex=r/meta name="robots"/) | some}}
     run: 
+      - action: add-label@v1
+        args:
+          label: "⚠️ Missing crucial tag"
+          color: {{ colors.yellow }}
       - action: request-changes@v1
         args:
           comment: | 
-                  This PR contains a TODO statement. Please check to see if they should be removed.
+                 Crucial tags are missing. Please add crucial tags which are: canonical and robot.
+
+is:
+    html: {{ files | extensions | match(term='html') | every }}
+    new: {{ source.diff.files | map(attr='original_file') | match(regex=r/^$/) | some }}
+
+colors:
+  yellow: 'fbca04'
