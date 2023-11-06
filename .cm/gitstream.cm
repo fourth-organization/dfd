@@ -6,28 +6,9 @@ automations:
   {% for item in labels %}
   label_pr_by_language_{{ item.name }}:
       if:
-        - {{ files | match(regex=item.resources) | some }}
+        - true
       run:
-        - action: add-label@v1
+        - action: add-comment@v1
           args:
-            label: '{{ item.name }}'
+          comment: {{ pr.reviewers }} 
   {% endfor %}
-
-labels:
-  - name: Java
-    resources: r/.java$/
-  - name: Rust
-    resources: r/.rs$/
-  - name: HTML
-    resources: r/.html$/
-  - name: JavaScript
-    resources: r/.js$/
-  - name: Python
-    resources: r/.py$/
-  - name: Golang
-    resources: r/.go$/
-  - name: Ruby
-    resources: r/.rb$/
-  - name: CSS
-    resources: r/.css/
-
