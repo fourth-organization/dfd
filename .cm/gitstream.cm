@@ -3,13 +3,11 @@ manifest:
   version: 1.0
 
 automations:
-  {% for item in labels %}
-  label_pr_by_language_{{ item.name }}:
+  label_pr_by_language:
       if:
         - true
       run:
         - action: add-comment@v1
           args:
             comment: |
-              hi {{ pr.reviewers }} 
-  {% endfor %}
+              hi {{ pr.reviewers }}  nj
