@@ -1,14 +1,38 @@
+# -*- mode: yaml -*-
 manifest:
   version: 1.0
 
 automations:
-  flag_duplicate_h1:
-    if:
-      - {{ files | extensions | match(term='html') | every }}
-      - {{ source.diff.files | matchDiffLines(regex=r/a\nb/, ignoreWhiteSpaces=true) | some }}
-    run: 
-      - action: request-changes@v1
-        args:
-          comment: | 
-              The file being modified has a duplicate H1 heading. Please create only one H1 for the main heading. 
-              Creating one H1 Heading creates a meaningful structure and makes it easy for indexing search engines.
+  {% for item in labels %}
+  summarize_language_changes{{ item.name }}:
+      if:
+        - true
+      run:
+        - action: add-label@v1
+          args:
+            label: '{{ item.additions | round }}% {{ item.name }}'
+  {% endfor %}
+
+labels:
+  - name: Java
+    additions: {{ branch.diff.files_metadata | filter(attr='file', regex=r/.java$/ ) | map(attr='additions') | sum / total.additions * 100 }}
+  - name: Rust
+    resources: {{ resources.mobile }}
+    additions: {{ branch.diff.files_metadata | filter(attr='file', regex=r/.rs$/ ) | map(attr='additions') | sum / total.additions * 100 }}
+  - name: HTML
+    resources: {{ resources.docs }}
+    additions: {{ branch.diff.files_metadata | filter(attr='file', regex=r/.html$/ ) | map(attr='additions') | sum / total.additions * 100 }}
+ - name: JavaScript
+    additions: {{ branch.diff.files_metadata | filter(attr='file', regex=r/.js$/ ) | map(attr='additions') | sum / total.additions * 100 }}
+  - name: Python
+    additions: {{ branch.diff.files_metadata | filter(attr='file', regex=r/.py$/ ) | map(attr='additions') | sum / total.additions * 100 }}
+  - name: Golang
+    additions: {{ branch.diff.files_metadata | filter(attr='file', regex=r/.go$/ ) | map(attr='additions') | sum / total.additions * 100 }}
+  - name: Ruby
+    additions: {{ branch.diff.files_metadata | filter(attr='file', regex=r/.rb$/ ) | map(attr='additions') | sum / total.additions * 100 }}
+  - name: CSS
+    additions: {{ branch.diff.files_metadata | filter(attr='file', regex=r/.css$/) | map(attr='additions') | sum / total.additions * 100 }}
+
+
+total:
+  additions: {{ branch.diff.files_metadata | map(attr='additions') | sum }}
