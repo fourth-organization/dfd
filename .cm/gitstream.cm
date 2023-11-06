@@ -20,7 +20,7 @@ labels:
     additions: {{ branch.diff.files_metadata | filter(attr='file', regex=r/.rs$/ ) | map(attr='additions') | sum / total.additions * 100 }}
   - name: HTML
     additions: {{ branch.diff.files_metadata | filter(attr='file', regex=r/.html$/ ) | map(attr='additions') | sum / total.additions * 100 }}
- - name: JavaScript
+  - name: JavaScript
     additions: {{ branch.diff.files_metadata | filter(attr='file', regex=r/.js$/ ) | map(attr='additions') | sum / total.additions * 100 }}
   - name: Python
     additions: {{ branch.diff.files_metadata | filter(attr='file', regex=r/.py$/ ) | map(attr='additions') | sum / total.additions * 100 }}
