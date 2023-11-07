@@ -4,11 +4,12 @@ manifest:
 automations:
   flag_duplicate_h1:
     if:
-      - true
+      - {{ duplicateH1 > 0 }}
     run: 
       - action: request-changes@v1
         args:
           comment: | 
-              The fileng {{ duplicatetwo }}
+              The file being modified has a duplicate H1 heading. 
+              Please create only one H1 for the main heading. Creating one H1 Heading creates a meaningful structure and makes it easy for indexing search engines.
 
-duplicatetwo: {{ source.diff.files | filter(attr='new_content', regex=r/<h1>(.|\n)*<h1>/) | length }}
+duplicateH1: {{ source.diff.files | filter(attr='new_content', regex=r/<h1>(.|\n)*<h1>/) | length }}
