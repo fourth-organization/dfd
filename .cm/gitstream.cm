@@ -9,6 +9,6 @@ automations:
       - action: request-changes@v1
         args:
           comment: | 
-              The fileng  hu {{ duplicatetwo }}
+              The fileng {{ duplicatetwo }}
 
-duplicatetwo: {{ source.diff.files | filter(attr='diff', regex=r/h1/) | length }}
+duplicatetwo: {{ source.diff.files | filter(attr='new_content', regex=r/h/) | length }}
