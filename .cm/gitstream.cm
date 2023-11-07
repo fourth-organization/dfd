@@ -1,13 +1,14 @@
-# -*- mode: yaml -*-
 manifest:
   version: 1.0
 
 automations:
-  label_pr_by_language:
-      if:
-        - true
-      run:
-        - action: add-comment@v1
-          args:
-            comment: |
-              hi {{ pr.reviewers }}  nj
+  flag_duplicate_h1:
+    if:
+      - {{ files | extensions | match(term='html') | every }}
+      - {{ source.diff.files | matchDiffLines(regex=r/\<h1\>(?s).*\<h1\>/) | some }}
+
+    run: 
+      - action: request-changes@v1
+        args:
+          comment: | 
+              The file being modified has a duplicate H1 heading. Please create only one H1 for the main heading. Creating one H1 Heading creates a meaningful structure and makes it easy for indexing search engines.
