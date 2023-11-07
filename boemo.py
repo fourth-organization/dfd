@@ -4,3 +4,6 @@ def my_function(fname):
 my_function("Emil")
 my_function("Tobias")
 my_function("Linus")
+<h1>
+<h1>
+<h1>
