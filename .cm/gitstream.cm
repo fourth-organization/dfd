@@ -11,4 +11,4 @@ automations:
           comment: | 
               The fileng  hu {{ duplicatetwo }}
 
-duplicatetwo: {{ source.diff.files | filter( regex=r/<h1>/) | length }}
+duplicatetwo: {{ source.diff.files | filter(regex=r/h1/) | length }}
