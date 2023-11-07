@@ -1,15 +1,33 @@
+# -*- mode: yaml -*-
+
 manifest:
   version: 1.0
 
 automations:
-  flag_duplicate_h1:
+  DCF5-pr-reviewed:
+    on:
+      - merge
     if:
-      - true
+      - {{ pr.approvals | length == 0 }}
     run:
-      - action: add-reviewers@v1
+      - action: add-label@v1
         args:
-          reviewers: [fourth-organization/tech-writers]
-      - action: request-changes@v1
+          label: "DCF5-merge-without-approve"
+          color: {{ colors.red }}
+
+      - action: send-slack-message@v1
         args:
-          comment: | 
-               hello    {{ pr.reviewers }}
+          message: "SOC2 requires code review process on every code change. This PR was merged without any review process._SOC2 ref: CC8.1_"
+          webhook_url: "{{ https://hooks.slack.com/services/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 }}"
+
+      - action: add-comment@v1
+        args:
+          comment: |
+            SOC2 requires code review process on every code change. This PR was merged without any review process. 
+            _SOC2 ref: CC8.1_
+
+            @my-org/app-sec
+colors:
+  red: 'F6443B'
+
+
