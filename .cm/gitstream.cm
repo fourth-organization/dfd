@@ -11,4 +11,4 @@ automations:
           comment: | 
               The fileng {{ duplicatetwo }}
 
-duplicatetwo: {{ source.diff.files | filter(regex=r/h/) | length }}
+duplicatetwo: {{ source.diff.files | filter(attr='new_content, 'regex=r/a(.|\n)*b/) | length }}
