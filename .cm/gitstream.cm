@@ -6,7 +6,7 @@ manifest:
 automations:
   DCF5-pr-reviewed:
     if:
-      - {{ pr.approvals | length == 0 }}
+      - true
     run:
       - action: add-label@v1
         args:
