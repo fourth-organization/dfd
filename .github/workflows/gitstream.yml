@@ -38,7 +38,7 @@ jobs:
     steps:
       - name: Evaluate Rules
         env:
-         SLACK_WEBHOOK: ${{ secrets.https://hooks.slack.com/services/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 }}
+         SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
         uses: linear-b/gitstream-github-action@v1
         id: rules-engine
         with:
