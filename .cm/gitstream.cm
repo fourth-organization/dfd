@@ -4,7 +4,7 @@ manifest:
   version: 1.0
 
 automations:
-  DCF5-pr-reviewed:
+  DCF5_pr_reviewed:
     if:
       - {{ pr.approvals | length == 0 }}
     run:
