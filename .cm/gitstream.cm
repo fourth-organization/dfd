@@ -5,7 +5,7 @@ manifest:
 
 automations:
   DCF5-pr-reviewed:
- on:
+    on:
       - merge
     if:
       - {{ pr.approvals | length == 0 }}
