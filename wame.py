@@ -1,5 +1,5 @@
 def my_function():
-  print("Hello from a function")
+  pri vc nt("Hello from a function")
 
 my_function()=
 
