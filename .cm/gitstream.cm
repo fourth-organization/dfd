@@ -9,8 +9,8 @@ automations:
         - {{ files | match(regex=item.resources) | some }}
       run:
         - action: add-comment@v1
-        args:
-          comment:
+          args:
+           comment:
             <h3> Language Changes Summary</h3>
             {{ item.additions | round }}% {{ item.name }}
   {% endfor %}
