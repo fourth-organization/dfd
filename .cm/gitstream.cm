@@ -14,8 +14,8 @@ automations:
          <h3>Language Changes Summary</h3>
              <table>
             <tr>
-            <td>Platform</td>
-            <td>Percentage Change</td>
+            <td>Language</td>
+            <td>Language Change Percentage</td>
             </tr>
             <tr>
             <td>Java</td>
