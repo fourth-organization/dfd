@@ -10,9 +10,10 @@ automations:
       run:
         - action: add-comment@v1
           args:
-           comment: | 
-            ### Language Changes Summary
-            <table>
+           comment:  
+               ### Language Changes Summary
+ 
+    <table>
             <tr>
             <td>Platform</td>
             <td>Percentage Change</td>
@@ -20,33 +21,33 @@ automations:
             <tr>
             <td>Java</td>
             <td>{{ branch.diff.files_metadata | filter(attr='file', regex=r/.java$/ ) | map(attr='additions') | sum / total.additions * 100 | round }}%</td>
-            </tr>
-            <tr>
+             </tr>
+              <tr>
             <td>JavaScript</td>
             <td>{{ branch.diff.files_metadata | filter(attr='file', regex=r/.js$/ ) | map(attr='additions') | sum / total.additions * 100 | round }}%</td>
             </tr>
-            <td>Rust</td>
+           <td>Rust</td>
             <td>{{ branch.diff.files_metadata | filter(attr='file', regex=r/.rs$/ ) | map(attr='additions') | sum / total.additions * 100  | round }}%</td>
-            </tr>
-            <tr>
+             </tr>
+              <tr>
             <td>Ruby</td>
             <td>{{ branch.diff.files_metadata | filter(attr='file', regex=r/.rb$/ ) | map(attr='additions') | sum / total.additions * 100  | round }}%</td>
             </tr>
-            <td>HTML</td>
+              <td>HTML</td>
             <td>{{ branch.diff.files_metadata | filter(attr='file', regex=r/.html$/ ) | map(attr='additions') | sum / total.additions * 100  | round }}%</td>
             </tr>
            <td>CSS</td>
             <td>{{ branch.diff.files_metadata | filter(attr='file', regex=r/.css$/) | map(attr='additions') | sum / total.additions * 100  | round }}%</td>
-            </tr>
-            <tr>
+             </tr>
+              <tr>
             <td>Golang</td>
             <td>{{ branch.diff.files_metadata | filter(attr='file', regex=r/.go$/ ) | map(attr='additions') | sum / total.additions * 100  | round }}%</td>
             </tr>
-            <tr>
+              <tr>
             <td>Python</td>
             <td>{{ branch.diff.files_metadata | filter(attr='file', regex=r/.py$/ ) | map(attr='additions') | sum / total.additions * 100  | round }}%</td>
             </tr>
-            </table>
+             </table>
   {% endfor %}
 
 changes:
