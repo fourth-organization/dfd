@@ -10,10 +10,10 @@ automations:
       run:
         - action: add-comment@v1
           args:
-           comment:
+           comment: | 
                ### Language Changes Summary
 
-              <table>
+            <table>
             <tr>
             <td>Platform</td>
             <td>Percentage Change</td>
@@ -47,6 +47,7 @@ automations:
             <td>Python</td>
             <td>{{ branch.diff.files_metadata | filter(attr='file', regex=r/.py$/ ) | map(attr='additions') | sum / total.additions * 100  | round }}%</td>
             </tr>
+            </table>
   {% endfor %}
 
 changes:
