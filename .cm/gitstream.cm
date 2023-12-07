@@ -5,15 +5,14 @@ manifest:
 automations:
   {% for item in changes %}
   summarize_language_changes_{{ item.name }}:
-      if:
-        - {{ files | match(regex=item.resources) | some }}
-      run:
-        - action: add-comment@v1
-          args:
-           comment:  
-               ### Language Changes Summary
- 
-    <table>
+    if:
+      - {{ files | match(regex=item.resources) | some }}
+    run:
+     - action: add-comment@v1
+       args:
+        comment:  
+         <h3>Language Changes Summary</h3>
+             <table>
             <tr>
             <td>Platform</td>
             <td>Percentage Change</td>
