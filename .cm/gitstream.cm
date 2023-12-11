@@ -4,7 +4,7 @@ manifest:
 automations:
   review_java_exceptions: 
     if:  
-      - {{ source.diff.files | matchDiffLines(regex=r/throw new Exception/) | nope }}
+      - {{ source.diff.files | matchDiffLines(regex=r/throw new Exception/) | some }}
       - {{ files | extensions | match(term='java') | every }}
     run:
       - action: add-comment@v1
