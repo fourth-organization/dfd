@@ -1,13 +1,23 @@
 # -*- mode: yaml -*-
 manifest:
   version: 1.0
+
 automations:
-  review_java_exceptions: 
-    if:  
-      - {{ source.diff.files | matchDiffLines(regex=r/throw new Exception/) | some }}
-      - {{ files | extensions | match(term='java') | every }}
+
+  point_out_todos:
+    if:
+      - {{ is.requested }}
     run:
+      - action: add-label@v1
+        args:
+          label: "⚠️ Includes TODOs"
+          color: {{ colors.yellow }}
       - action: add-comment@v1
-        args: 
-          comment: | 
-              This PR appears to throw exceptions that aren't specific. Please throw specific exceptions to add more clarity which simplifies the debugging process. 
+        args:
+          comment: 'There are new TODOs present in this change.  Should any be removed?'
+
+colors:
+  yellow: 'ffb300'
+
+is:
+  requested: {{ (pr.comments | match(attr='content', term='@bot-gitstream check all') | some) }}
