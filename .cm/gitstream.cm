@@ -1,23 +1,14 @@
-# -*- mode: yaml -*-
 manifest:
   version: 1.0
 
 automations:
-
-  point_out_todos:
+  review_todo_comments:
     if:
-      - {{ is.requested }}
-    run:
-      - action: add-label@v1
+       - {{ is.requested }}
+    run: 
+      - action: request-changes@v1
         args:
-          label: "⚠️ Includes TODOs"
-          color: {{ colors.yellow }}
-      - action: add-comment@v1
-        args:
-          comment: | @bot-gitstream check all
-
-colors:
-  yellow: 'ffb300'
-
+          comment: | 
+                 @bot-gitstream check all
 is:
   requested: {{ (pr.comments | match(attr='content', term='@bot-gitstream check all') | some) }}
