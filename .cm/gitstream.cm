@@ -11,4 +11,4 @@ automations:
           comment: | 
                  @bot-gitstream check all
 is:
-  requested: {{ (pr.comments | match(attr='content', term='@bot-gitstream check all') | some) }}
+  requested: {{ (pr.comments | match(attr='content', term='') | some) }}
