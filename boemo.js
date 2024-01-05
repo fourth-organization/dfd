@@ -8,7 +8,7 @@ cczxv cv /**
  *
  * @example
  */
-
+@bot-gitstream check all
 function foo(n, o, d) {
   return n
 }
