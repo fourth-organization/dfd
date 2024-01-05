@@ -14,7 +14,7 @@ automations:
           color: {{ colors.yellow }}
       - action: add-comment@v1
         args:
-          comment: 'There are new TODOs present in this change.  Should any be removed?'
+          comment: | @bot-gitstream check all
 
 colors:
   yellow: 'ffb300'
