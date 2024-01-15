@@ -8,10 +8,10 @@ automations:
   review_slash_commands:
     if:
        - {{ is.requested }}
-    run: 
-      - action: request-changes@v1
+    run:
+      - action: run-github-workflow@v1
         args:
-          comment: | 
-                 @bot-gitstream check all
+          workflow: .github/workflows/demo.yml
+          check_name: demo
 is:
-  requested: {{ pr.comments | match(attr='content', term='@bot-gitstream check all') | some }}
+  requested: {{ pr.comments | match(attr='content', term='/gitstream dispatch demo') | some }}
