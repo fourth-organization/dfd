@@ -12,6 +12,5 @@ automations:
       - action: run-github-workflow@v1
         args:
           workflow: .github/workflows/demo.yml
-          check_name: demo
 is:
   requested: {{ pr.comments | match(attr='content', term='/gitstream dispatch demo') | some }}
