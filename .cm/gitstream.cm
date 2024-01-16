@@ -9,8 +9,8 @@ automations:
     if:
        - {{ is.requested }}
     run:
-      - action: run-github-workflow@v1
+      - action: add-reviewers@v1
         args:
-          workflow: .github/workflows/deploy.yml
+          reviewers: [codergig3]
 is:
-  requested: {{ pr.comments | match(attr='content', term='/gitstream dispatch deploy') | some }}
+  requested: {{ pr.comments | match(attr='content', term='/gitstream auto-assign') | some }}
