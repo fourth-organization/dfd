@@ -11,6 +11,6 @@ automations:
     run:
       - action: run-github-workflow@v1
         args:
-          workflow: .github/workflows/demo.yml
+          workflow: .github/workflows/deploy.yml
 is:
-  requested: {{ pr.comments | match(attr='content', term='/gitstream dispatch demo') | some }}
+  requested: {{ pr.comments | match(attr='content', term='/gitstream dispatch deploy') | some }}
